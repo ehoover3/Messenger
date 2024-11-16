@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle } from "react-icons/bs";
@@ -36,7 +37,7 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     if (variant === "REGISTER") {
-      // AXIOS REGISTER
+      axios.post("/api/register", data);
     }
 
     if (variant === "LOGIN") {
@@ -46,7 +47,6 @@ const AuthForm = () => {
 
   const socialAction = (action: string) => {
     setIsLoading(true);
-
     // NextAuth Social Sign In
   };
 

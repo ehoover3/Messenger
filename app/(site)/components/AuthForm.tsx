@@ -56,7 +56,9 @@ const AuthForm = () => {
           <Input id='email' label='Email' type='email' register={register} errors={errors} />
           <Input id='password' label='Password' type='password' register={register} errors={errors} />
           <div>
-            <Button>TEST</Button>
+            <Button disabled={isLoading} fullWidth type='submit'>
+              {variant === "LOGIN" ? "Sign in" : "Register"}
+            </Button>
           </div>
         </form>
       </div>

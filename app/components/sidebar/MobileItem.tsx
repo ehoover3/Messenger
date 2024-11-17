@@ -23,3 +23,5 @@ const MobileItem: React.FC<MobileItemsProps> = ({ href, icon: Icon, active, onCl
     </Link>
   );
 };
+
+export default MobileItem;

@@ -40,6 +40,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
   const image = watch("image");
 
   const handleUpload = (result: any) => {
+    console.log("RESULT: ", result);
     setValue("image", result.info.secure_url, {
       shouldValidate: true,
     });
@@ -61,39 +62,60 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='space-y-12'>
-          <div className='border-b border-gray-900/10 pb-12'>
+        <div className="space-y-12">
+          <div className="border-b border-gray-900/10 pb-12">
             <h2
-              className='
+              className="
                 text-base 
                 font-semibold 
                 leading-7 
                 text-gray-900
                 dark:text-gray-200
-              '>
+              "
+            >
               Profile
             </h2>
-            <p className='mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300'>Edit your profile information.</p>
+            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
+              Edit your profile information.
+            </p>
 
-            <div className='mt-10 flex flex-col gap-y-8'>
-              <Input disabled={isLoading} label='Name' id='name' errors={errors} required register={register} />
+            <div className="mt-10 flex flex-col gap-y-8">
+              <Input
+                disabled={isLoading}
+                label="Name"
+                id="name"
+                errors={errors}
+                required
+                register={register}
+              />
               <div>
                 <label
-                  htmlFor='photo'
-                  className='
+                  htmlFor="photo"
+                  className="
                     block 
                     text-sm 
                     font-medium 
                     leading-6 
                     text-gray-900
                     dark:text-gray-200
-                  '>
+                  "
+                >
                   Photo
                 </label>
-                <div className='mt-2 flex items-center gap-x-3'>
-                  <Image width='48' height='48' className='rounded-full' src={image || currentUser?.image || "/images/avatar-placeholder.png"} alt='Avatar' />
-                  <CldUploadButton options={{ maxFiles: 1 }} onUpload={handleUpload} uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME}>
-                    <Button disabled={isLoading} secondary type='button'>
+                <div className="mt-2 flex items-center gap-x-3">
+                  <Image
+                    width="48"
+                    height="48"
+                    className="rounded-full"
+                    src={image || currentUser?.image || "/images/avatar-placeholder.png"}
+                    alt="Avatar"
+                  />
+                  <CldUploadButton
+                    options={{ maxFiles: 1 }}
+                    onUpload={handleUpload}
+                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME}
+                  >
+                    <Button disabled={isLoading} secondary type="button">
                       Change
                     </Button>
                   </CldUploadButton>
@@ -104,17 +126,18 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
         </div>
 
         <div
-          className='
+          className="
             mt-6 
             flex 
             items-center 
             justify-end 
             gap-x-6
-          '>
+          "
+        >
           <Button disabled={isLoading} secondary onClick={onClose}>
             Cancel
           </Button>
-          <Button disabled={isLoading} type='submit'>
+          <Button disabled={isLoading} type="submit">
             Save
           </Button>
         </div>

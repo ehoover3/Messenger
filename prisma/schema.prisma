@@ -1,10 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-// npx primsa db push
+// Docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -16,20 +10,20 @@ datasource db {
 }
 
 model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String?
-  email String? @unique
-  emailVerified DateTime?
-  image String?
-  hashedPassword String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  name            String?
+  email           String?   @unique
+  emailVerified   DateTime?
+  image           String?
+  hashedPassword  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   conversationIds String[] @db.ObjectId
   conversations Conversation[] @relation(fields: [conversationIds], references: [id])
-
+  
   seenMessageIds String[] @db.ObjectId
-  seenMessages Message[] @relation("Seen", fields: [seenMessageIds], references: [id]) 
+  seenMessages Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
 
   accounts Account[]
   messages Message[]
@@ -37,36 +31,35 @@ model User {
 
 model Account {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  type String
-  provider String
-  providerAccountId String
-  refresh_token String? @db.String
-  access_token String? @db.String
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String? @db.String
-  session_state String?
+  userId             String   @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.String
+  access_token       String?  @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.String
+  session_state      String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade )
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-
 }
 
 model Conversation {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt DateTime @default(now())
-    lastMessageAt DateTime @default(now())
-    name String?
-    isGroup Boolean?
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  lastMessageAt DateTime @default(now())
+  name String?
+  isGroup Boolean?
+  
+  messagesIds String[] @db.ObjectId
+  messages Message[]
 
-    messagesIds String[] @db.ObjectId
-    messages Message[]
-
-    userIds String[] @db.ObjectId
-    users User[] @relation(fields: [userIds], references: [id])
+  userIds String[] @db.ObjectId
+  users User[] @relation(fields: [userIds], references: [id])
 }
 
 model Message {
@@ -79,9 +72,8 @@ model Message {
   seen User[] @relation("Seen", fields: [seenIds], references: [id])
 
   conversationId String @db.ObjectId
-  conversation Conversation @relation(fields: [conversationId], references: [id])
-
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
   senderId String @db.ObjectId
   sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
-
 }

@@ -10,7 +10,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Button from "../../components/Button";
-import Input from "../../components/inputsTest/Input";
+import Input from "../../components/inputs/Input";
 import LoadingModal from "../../components/modals/LoadingModal";
 import AuthSocialButton from "./AuthSocialButton";
 

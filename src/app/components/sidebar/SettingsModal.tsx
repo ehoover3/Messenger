@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import Button from "../Button";
-import Input from "../inputsTest/Input";
+import Input from "../inputs/Input";
 import Modal from "../modals/Modal";
 
 interface SettingsModalProps {

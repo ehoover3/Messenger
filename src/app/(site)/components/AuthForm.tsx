@@ -99,41 +99,69 @@ const AuthForm = () => {
   return (
     <>
       {session?.status === "loading" && <LoadingModal />}
-      <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
-        <div className=' bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10 dark:bg-dusk dark:sm:border-2 dark:border-lightgray'>
-          <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
-            {variant === "REGISTER" && <Input disabled={isLoading} register={register} errors={errors} required id='name' label='Name' />}
-            <Input disabled={isLoading} register={register} errors={errors} required id='email' label='Email address' type='email' />
-            <Input disabled={isLoading} register={register} errors={errors} required id='password' label='Password' type='password' />
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className=" bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10 dark:bg-dusk dark:sm:border-2 dark:border-lightgray">
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            {variant === "REGISTER" && (
+              <Input
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required
+                id="name"
+                label="Name"
+              />
+            )}
+            <Input
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+              id="email"
+              label="Email address"
+              type="email"
+            />
+            <Input
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+              id="password"
+              label="Password"
+              type="password"
+            />
             <div>
-              <Button disabled={isLoading} fullWidth type='submit'>
+              <Button disabled={isLoading} fullWidth type="submit">
                 {variant === "LOGIN" ? "Sign in" : "Register"}
               </Button>
             </div>
           </form>
-          <div className='mt-6'>
-            <div className='relative'>
+          <div className="mt-6">
+            <div className="relative">
               <div
-                className='
+                className="
                 absolute 
                 inset-0 
                 flex 
                 items-center
-              '>
-                <div className='w-full border-t border-gray-300 dark:border-t-2 dark:border-lightgray' />
+              "
+              >
+                <div className="w-full border-t border-gray-300 dark:border-t-2 dark:border-lightgray" />
               </div>
-              <div className='relative flex justify-center text-sm'>
-                <span className='bg-white px-2 text-gray-500 dark:bg-dusk dark:text-gray-200'>Or continue with</span>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-white px-2 text-gray-500 dark:bg-dusk dark:text-gray-200">
+                  Or continue with
+                </span>
               </div>
             </div>
 
-            <div className='mt-6 flex gap-2'>
+            <div className="mt-6 flex gap-2">
               <AuthSocialButton icon={BsGithub} onClick={() => socialAction("github")} />
               <AuthSocialButton icon={BsGoogle} onClick={() => socialAction("google")} />
             </div>
           </div>
           <div
-            className='
+            className="
             mt-6 
             flex 
             justify-center 
@@ -142,9 +170,10 @@ const AuthForm = () => {
             text-sm 
             text-gray-500
             dark:text-gray-400
-          '>
+          "
+          >
             <div>{variant === "LOGIN" ? "New to Messenger?" : "Already have an account?"}</div>
-            <div onClick={toggleVariant} className='cursor-pointer underline'>
+            <div onClick={toggleVariant} className="cursor-pointer underline">
               {variant === "LOGIN" ? "Create an account" : "Login"}
             </div>
           </div>

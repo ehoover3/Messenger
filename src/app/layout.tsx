@@ -5,13 +5,13 @@ import ToasterContext from "./context/ToasterContext";
 import "./globals.css";
 
 export const metadata = {
-  title: "NextJs Messenger Clone",
-  description: "NextJs Messenger Clone",
+  title: "Eric Hoover - Messenger",
+  description: "Eric Hoover - Messenger",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body suppressHydrationWarning={true}>
         <AuthContext>
           <Providers>

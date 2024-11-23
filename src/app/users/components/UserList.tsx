@@ -26,7 +26,7 @@ const UserList: React.FC<UserListProps> = ({ items }) => {
 
   return (
     <aside
-      className='
+      className="
         fixed 
         inset-y-0 
         pb-20
@@ -39,21 +39,27 @@ const UserList: React.FC<UserListProps> = ({ items }) => {
         border-gray-200
         block w-full left-0
         dark:border-lightgray
-      '>
-      <div className='px-5'>
-        <div className='flex-col'>
+      "
+    >
+      <div className="px-5">
+        <div className="flex-col">
           <div
-            className='
+            className="
               text-2xl 
               font-bold 
               text-neutral-800 
               py-4
               dark:text-gray-200
-            '>
+            "
+          >
             People
           </div>
         </div>
-        <SearchInput id='search' placeholder='search by name, email ...' setSearchBy={setSearchBy} />
+        {/* <SearchInput
+          id="search"
+          placeholder="search by name, email ..."
+          setSearchBy={setSearchBy}
+        /> */}
         {items.filter(filterBySearch).map((item) => (
           <UserBox key={item.id} data={item} />
         ))}

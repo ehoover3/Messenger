@@ -13,13 +13,24 @@ interface InputProps {
   disabled?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ label, id, register, required, errors, type = "text", disabled }) => {
+const Input: React.FC<InputProps> = ({
+  label,
+  id,
+  register,
+  required,
+  errors,
+  type = "text",
+  disabled,
+}) => {
   return (
     <div>
-      <label htmlFor={id} className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200"
+      >
         {label}
       </label>
-      <div className='mt-2'>
+      <div className="mt-2">
         <input
           id={id}
           type={type}

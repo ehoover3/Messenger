@@ -54,13 +54,13 @@ const Form = () => {
         dark:border-lightgray
       "
     >
-      <CldUploadButton
+      {/* <CldUploadButton
         options={{ maxFiles: 1 }}
         onUpload={handleUpload}
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME}
       >
         <HiPhoto size={30} className="text-sky-500" />
-      </CldUploadButton>
+      </CldUploadButton> */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 lg:gap-4 w-full">
         <MessageInput
           id="message"

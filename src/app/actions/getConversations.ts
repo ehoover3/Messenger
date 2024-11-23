@@ -1,7 +1,5 @@
-import prisma from "@/src/app/libs/prismadb";
-
+import prisma from "../libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
-import useConversation from "../hooks/useConversation";
 
 const getConversations = async () => {
   const currentUser = await getCurrentUser();
@@ -32,7 +30,7 @@ const getConversations = async () => {
     });
 
     return conversations;
-  } catch (error: unknown) {
+  } catch (error: any) {
     return [];
   }
 };

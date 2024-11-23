@@ -1,16 +1,17 @@
-import getCurrentUser from "@/src/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-import prisma from "@/src/app/libs/prismadb";
-import { pusherServer } from "@/src/app/libs/pusher";
 
-export async function POST(req: Request) {
+import getCurrentUser from "../../actions/getCurrentUser";
+import prisma from "../../libs/prismadb";
+import { pusherEvents, pusherServer } from "../../libs/pusher";
+
+export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
-    const body = await req.json();
+    const body = await request.json();
     const { userId, isGroup, members, name } = body;
 
-    if (!currentUser?.id || !currentUser.email) {
-      return new NextResponse("Unauthorized", { status: 401 });
+    if (!currentUser?.id || !currentUser?.email) {
+      return new NextResponse("Unauthorized", { status: 400 });
     }
 
     if (isGroup && (!members || members.length < 2 || !name)) {
@@ -38,11 +39,13 @@ export async function POST(req: Request) {
         },
       });
 
+      // Update all connections with new conversation
       newConversation.users.forEach((user) => {
         if (user.email) {
-          pusherServer.trigger(user.email, "conversation:new", newConversation);
+          pusherServer.trigger(user.email, pusherEvents.NEW_CONVERSATION, newConversation);
         }
       });
+
       return NextResponse.json(newConversation);
     }
 
@@ -64,6 +67,7 @@ export async function POST(req: Request) {
     });
 
     const singleConversation = existingConversations[0];
+
     if (singleConversation) {
       return NextResponse.json(singleConversation);
     }
@@ -71,20 +75,30 @@ export async function POST(req: Request) {
     const newConversation = await prisma.conversation.create({
       data: {
         users: {
-          connect: [{ id: currentUser.id }, { id: userId }],
+          connect: [
+            {
+              id: currentUser.id,
+            },
+            {
+              id: userId,
+            },
+          ],
         },
       },
-      include: { users: true },
+      include: {
+        users: true,
+      },
     });
 
+    // Update all connections with new conversation
     newConversation.users.map((user) => {
       if (user.email) {
-        pusherServer.trigger(user.email, "conversation:new", newConversation);
+        pusherServer.trigger(user.email, pusherEvents.NEW_CONVERSATION, newConversation);
       }
     });
 
     return NextResponse.json(newConversation);
   } catch (error) {
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }

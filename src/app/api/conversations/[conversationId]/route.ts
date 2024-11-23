@@ -1,21 +1,20 @@
-import getCurrentUser from "@/src/app/actions/getCurrentUser";
+import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 
-import prisma from "@/src/app/libs/prismadb";
-import { pusherServer } from "@/src/app/libs/pusher";
+import getCurrentUser from "../../../actions/getCurrentUser";
+import { pusherEvents, pusherServer } from "../../../libs/pusher";
 
 interface IParams {
   conversationId?: string;
 }
 
-export async function DELETE(req: Request, { params }: { params: IParams }) {
-  console.log(11, "/api/conversations/[conversationId]");
+export async function DELETE(request: Request, { params }: { params: IParams }) {
   try {
     const { conversationId } = params;
     const currentUser = await getCurrentUser();
 
     if (!currentUser?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json(null);
     }
 
     const existingConversation = await prisma.conversation.findUnique({
@@ -42,13 +41,12 @@ export async function DELETE(req: Request, { params }: { params: IParams }) {
 
     existingConversation.users.forEach((user) => {
       if (user.email) {
-        pusherServer.trigger(user.email, "conversation:remove", existingConversation);
+        pusherServer.trigger(user.email, pusherEvents.DELETE_CONVERSATION, existingConversation);
       }
     });
 
     return NextResponse.json(deletedConversation);
   } catch (error) {
-    console.log(error, "ERROR_CONVERSATION_DELETE");
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json(null);
   }
 }

@@ -1,4 +1,4 @@
-import prisma from "@/src/app/libs/prismadb";
+import prisma from "../libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
 
 const getConversationById = async (conversationId: string) => {
@@ -19,7 +19,8 @@ const getConversationById = async (conversationId: string) => {
     });
 
     return conversation;
-  } catch (error: unknown) {
+  } catch (error: any) {
+    console.log(error, "SERVER_ERROR");
     return null;
   }
 };

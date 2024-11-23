@@ -1,13 +1,12 @@
-import getCurrentUser from "@/src/app/actions/getCurrentUser";
+import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 
-import prisma from "@/src/app/libs/prismadb";
+import getCurrentUser from "../../actions/getCurrentUser";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
-
-    const body = await req.json();
+    const body = await request.json();
     const { name, image } = body;
 
     if (!currentUser?.id) {
@@ -25,8 +24,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(updatedUser);
-  } catch (error: unknown) {
-    console.log(error, "ERROR_SETTINGS");
-    return new NextResponse("Internal Error", { status: 500 });
+  } catch (error) {
+    console.log(error, "ERROR_MESSAGES");
+    return new NextResponse("Error", { status: 500 });
   }
 }

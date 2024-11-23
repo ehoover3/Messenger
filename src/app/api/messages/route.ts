@@ -1,31 +1,32 @@
-import getCurrentUser from "@/src/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-import { pusherServer } from "@/src/app/libs/pusher";
 
-export async function POST(req: Request) {
+import getCurrentUser from "../../actions/getCurrentUser";
+import prisma from "../../libs/prismadb";
+import { pusherEvents, pusherServer } from "../../libs/pusher";
+
+export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
-    const body = await req.json();
-
+    const body = await request.json();
     const { message, image, conversationId } = body;
 
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const newMessage = await prisma?.message.create({
+    const newMessage = await prisma.message.create({
+      include: {
+        seen: true,
+        sender: true,
+      },
       data: {
         body: message,
         image: image,
         conversation: {
-          connect: {
-            id: conversationId,
-          },
+          connect: { id: conversationId },
         },
         sender: {
-          connect: {
-            id: currentUser.id,
-          },
+          connect: { id: currentUser.id },
         },
         seen: {
           connect: {
@@ -33,13 +34,9 @@ export async function POST(req: Request) {
           },
         },
       },
-      include: {
-        seen: true,
-        sender: true,
-      },
     });
 
-    const updatedConversation = await prisma?.conversation.update({
+    const updatedConversation = await prisma.conversation.update({
       where: {
         id: conversationId,
       },
@@ -47,7 +44,7 @@ export async function POST(req: Request) {
         lastMessageAt: new Date(),
         messages: {
           connect: {
-            id: newMessage?.id,
+            id: newMessage.id,
           },
         },
       },
@@ -61,20 +58,20 @@ export async function POST(req: Request) {
       },
     });
 
-    await pusherServer.trigger(conversationId, "messages:new", newMessage);
+    await pusherServer.trigger(conversationId, pusherEvents.NEW_MESSAGE, newMessage);
 
-    const lastMessage = updatedConversation?.messages[updatedConversation.messages.length - 1];
+    const lastMessage = updatedConversation.messages[updatedConversation.messages.length - 1];
 
-    updatedConversation?.users.map((user) => {
-      pusherServer.trigger(user.email!, "conversation:update", {
+    updatedConversation.users.map((user) => {
+      pusherServer.trigger(user.email!, pusherEvents.UPDATE_CONVERSATION, {
         id: conversationId,
         messages: [lastMessage],
       });
     });
 
     return NextResponse.json(newMessage);
-  } catch (error: unknown) {
+  } catch (error) {
     console.log(error, "ERROR_MESSAGES");
-    return new NextResponse("InternalError", { status: 500 });
+    return new NextResponse("Error", { status: 500 });
   }
 }

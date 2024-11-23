@@ -9,8 +9,8 @@ import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 import Button from "../Button";
-import Input from "../inputs/Input";
-import Select from "../inputs/Select";
+import Input from "../inputsTEST/Input";
+import Select from "../inputsTEST/Select";
 import Modal from "./Modal";
 
 interface GroupChatModalProps {

@@ -9,8 +9,8 @@ import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 import Button from "../Button";
-import Input from "../inputs/Input";
-import Select from "../inputs/Select";
+import Input from "../inputsTest/Input";
+import Select from "../inputsTest/Select";
 import Modal from "./Modal";
 
 interface GroupChatModalProps {
@@ -57,24 +57,34 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({ isOpen, onClose, users 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='space-y-12'>
-          <div className='border-b border-gray-900/10 pb-12'>
+        <div className="space-y-12">
+          <div className="border-b border-gray-900/10 pb-12">
             <h2
-              className='
+              className="
                 text-base 
                 font-semibold 
                 leading-7 
                 text-gray-900
                 dark:text-gray-200
-              '>
+              "
+            >
               Create a group chat
             </h2>
-            <p className='mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300'>Create a chat with more than 2 people.</p>
-            <div className='mt-10 flex flex-col gap-y-8'>
-              <Input disabled={isLoading} label='Group Name' id='name' errors={errors} required register={register} />
+            <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
+              Create a chat with more than 2 people.
+            </p>
+            <div className="mt-10 flex flex-col gap-y-8">
+              <Input
+                disabled={isLoading}
+                label="Group Name"
+                id="name"
+                errors={errors}
+                required
+                register={register}
+              />
               <Select
                 disabled={isLoading}
-                label='Members'
+                label="Members"
                 options={users.map((user) => ({
                   value: user.id,
                   label: user.name,
@@ -89,11 +99,11 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({ isOpen, onClose, users 
             </div>
           </div>
         </div>
-        <div className='mt-6 flex items-center justify-end gap-x-6'>
-          <Button disabled={isLoading} onClick={onClose} type='button' secondary>
+        <div className="mt-6 flex items-center justify-end gap-x-6">
+          <Button disabled={isLoading} onClick={onClose} type="button" secondary>
             Cancel
           </Button>
-          <Button disabled={isLoading} type='submit'>
+          <Button disabled={isLoading} type="submit">
             Create
           </Button>
         </div>

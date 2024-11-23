@@ -11,12 +11,30 @@ interface MessageInputProps {
   errors: FieldErrors;
 }
 
-function MessageInput({ placeholder, id, type, required, register, errors }: MessageInputProps) {
+const MessageInput: React.FC<MessageInputProps> = ({ placeholder, id, type, required, register }) => {
   return (
     <div className='relative w-full'>
-      <input className='text-neutral-100 font-light px-4 py-2 bg-[#404040] w-full rounded-full focus:outline-none' id={id} type={type} autoComplete={id} {...register(id, { required })} placeholder={placeholder} />
+      <input
+        id={id}
+        type={type}
+        autoComplete={id}
+        {...register(id, { required })}
+        placeholder={placeholder}
+        className='
+          text-black
+          font-light
+          py-2
+          px-4
+          bg-neutral-100 
+          dark:bg-lightgray
+          w-full 
+          rounded-full
+          focus:outline-none
+          dark:text-white
+        '
+      />
     </div>
   );
-}
+};
 
 export default MessageInput;

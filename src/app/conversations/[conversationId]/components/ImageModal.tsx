@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import Modal from "@/src/app/components/Modal";
+import Modal from "../../../components/modals/Modal";
 
 interface ImageModalProps {
   isOpen?: boolean;
@@ -10,7 +10,7 @@ interface ImageModalProps {
   src?: string | null;
 }
 
-function ImageModal({ isOpen, onClose, src }: ImageModalProps) {
+const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, src }) => {
   if (!src) {
     return null;
   }
@@ -18,10 +18,10 @@ function ImageModal({ isOpen, onClose, src }: ImageModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className='w-80 h-80'>
-        <Image className='object-cover' src={src} fill alt='Iamge' />/
+        <Image className='object-contain' fill alt='Image' src={src} />
       </div>
     </Modal>
   );
-}
+};
 
 export default ImageModal;

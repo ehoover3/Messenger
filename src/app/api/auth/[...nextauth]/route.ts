@@ -25,10 +25,13 @@ export const authOptions: AuthOptions = {
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("Authorize function called");
         if (!credentials?.email || !credentials?.password) {
+          console.log("Missing email or password in credentials");
           throw new Error("Invalid credentials");
         }
 
+        console.log("Checking user in database for email:", credentials.email);
         const user = await prisma.user.findUnique({
           where: {
             email: credentials.email,
@@ -36,6 +39,7 @@ export const authOptions: AuthOptions = {
         });
 
         if (!user || !user?.hashedPassword) {
+          console.log(`No user found for email: ${credentials.email}`);
           throw new Error("Invalid credentials");
         }
 
@@ -45,6 +49,7 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
+        console.log("User authenticated successfully:", user.email);
         return user;
       },
     }),

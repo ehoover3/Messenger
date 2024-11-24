@@ -7,7 +7,7 @@ import { pusherClient } from "../libs/pusher";
 import useActiveList from "./useActiveList";
 
 const useActiveChannel = () => {
-  const session = useSession();
+  const session: any | null = useSession();
 
   const { set, add, remove } = useActiveList();
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);

@@ -12,7 +12,7 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({ placeholder, id, setSearchBy }) => {
   const debouncedSearch = useRef(
-    debounce(async (criteria) => {
+    debounce(async (criteria: any) => {
       setSearchBy(criteria);
     }, 300)
   ).current;
@@ -33,7 +33,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ placeholder, id, setSearchBy 
       autoComplete={id}
       placeholder={placeholder}
       onChange={handleSearch}
-      className='
+      className="
           text-black
           font-light
           mb-2
@@ -45,7 +45,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ placeholder, id, setSearchBy 
           rounded-full
           focus:outline-none
           dark:text-white
-        '
+        "
     />
   );
 };

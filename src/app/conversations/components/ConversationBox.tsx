@@ -19,7 +19,7 @@ interface ConversationBoxProps {
 
 const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => {
   const otherUser = useOtherUser(data);
-  const session = useSession();
+  const session: any | null = useSession();
   const router = useRouter();
 
   const handleClick = useCallback(() => {

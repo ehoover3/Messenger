@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { FullConversationType } from "../types";
 
 const useOtherUser = (conversation: FullConversationType | { users: User[] }) => {
-  const session = useSession();
+  const session: any | null = useSession();
 
   const otherUser = useMemo(() => {
     const currentUserEmail = session.data?.user?.email;

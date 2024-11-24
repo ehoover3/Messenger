@@ -8,22 +8,21 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -e NODE_ENV >> apps/src/app/.env.production
-        - env | grep -e NEXTAUTH_SECRET >> apps/src/app/.env.production
-        - env | grep -e DATABASE_URL >> apps/src/app/.env.production
-        - env | grep -e NEXTAUTH_URL >> apps/src/app/.env.production
-        - env | grep -e NEXT_PUBLIC_PUSHER_APP_KEY >> apps/src/app/.env.production
-        - env | grep -e NEXT_PUBLIC_PUSHER_CLUSTER >> apps/src/app/.env.production
-        - env | grep -e PUSHER_APP_ID >> apps/src/app/.env.production
-        - env | grep -e PUSHER_SECRET >> apps/src/app/.env.production
-        - env | grep -e NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME >> apps/src/app/.env.production
-        - env | grep -e NEXT_PUBLIC_CLOUDINARY_PRESET_NAME >> apps/src/app/.env.production
-        - env | grep -e GITHUB_ID >> apps/src/app/.env.production
-        - env | grep -e GITHUB_SECRET >> apps/src/app/.env.production
-        - env | grep -e GOOGLE_CLIENT_SECRET >> apps/src/app/.env.production
-        - env | grep -e GOOGLE_CLIENT_ID >> apps/src/app/.env.production
-        - env | grep -e NEXT_PUBLIC_ >> apps/src/app/.env.production
-        - env | grep -e AUTH_SECRET -e JWT_SECRET -e AUTH_TRUST_HOST >> .env
+        # Ensure all necessary environment variables are available
+        - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+        - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
+        - echo "DATABASE_URL=$DATABASE_URL" >> .env
+        - echo "NEXT_PUBLIC_PUSHER_APP_KEY=$NEXT_PUBLIC_PUSHER_APP_KEY" >> .env
+        - echo "NEXT_PUBLIC_PUSHER_CLUSTER=$NEXT_PUBLIC_PUSHER_CLUSTER" >> .env
+        - echo "PUSHER_APP_ID=$PUSHER_APP_ID" >> .env
+        - echo "PUSHER_SECRET=$PUSHER_SECRET" >> .env
+        - echo "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME" >> .env
+        - echo "NEXT_PUBLIC_CLOUDINARY_PRESET_NAME=$NEXT_PUBLIC_CLOUDINARY_PRESET_NAME" >> .env
+        - echo "GITHUB_ID=$GITHUB_ID" >> .env
+        - echo "GITHUB_SECRET=$GITHUB_SECRET" >> .env
+        - echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env
+        - echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env
+        # Run the Next.js build process
         - npm run build
   artifacts:
     baseDirectory: out
@@ -31,5 +30,5 @@ frontend:
       - "**/*"
   cache:
     paths:
+      - node_modules/**/*
       - .next/cache/**/*
-      - .npm/**/*

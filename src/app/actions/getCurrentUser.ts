@@ -3,7 +3,7 @@ import getSession from "./getSession";
 
 const getCurrentUser = async () => {
   try {
-    const session = await getSession();
+    const session: any | null = await getSession();
 
     if (!session?.user?.email) {
       return null;
